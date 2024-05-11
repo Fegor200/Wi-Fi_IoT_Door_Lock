@@ -31,11 +31,13 @@ char detectedKeys[maxKey];  // Array to store detected keys
 int keyCount = 0;  // Counter for detected keys
 
 int keyVals[10] = {2080, 2520, 3030, 2280, 2650, 3150, 2400, 2770, 3210, 2860};
-char keys[10] = {'1'   ,'2'  ,'3'  ,'4'  ,'5'  ,'6'  ,'7'  ,'8'  ,'9'  ,'0'};
+char keys[10]   = {'1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0'};
 
 
 //initialize list with predefined passwords
 std::vector<std::string> passwords = {"1111", "2250"};
+
+// create hased based pasword management for better security/password management
 
 //define string to hold keyed in keys
 String passkey[1];
