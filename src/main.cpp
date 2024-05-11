@@ -7,7 +7,6 @@
 #include <vector>
 #include <string>
 #include <string.h>
-//#include <Adafruit_Sensor.h>
 #include "WiFi.h"
 #include <ESP32Servo.h>
 #include <Keypad.h>
