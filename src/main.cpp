@@ -10,10 +10,18 @@
 #include "WiFi.h"
 #include <ESP32Servo.h>
 #include <Keypad.h>
+#include <SPI.h>
+#include "FS.h"
+#include <ESPAsyncWebServer.h>
 
+AsyncWebServer server(80);
 
 #define WIFI_NETWORK "dlink-9728"
 #define WIFI_PASSWORD "kugxb48486"
+
+// #define WIFI_NETWORK1 "TELUS0377"
+// #define WIFI_PASSWORD1 "yn99sbdzpd"
+
 #define WIFI_TIMEOUT_MS 10000
 
 #define GreenLED 13
@@ -97,6 +105,13 @@ void setup() {
   Serial.begin(9600); // Start the serial communication
   delay(1000);        // Wait for serial port to initialize (useful for some boards)
   connectToWiFi();    // Function to connect to WiFi
+
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+  request->send(200, "text/html", "<h1> Whats Popping Dickhead! from ESP32 </h1>");
+  });
+
+  server.begin();
+  Serial.println("HTTP server started");
 
   pinMode(pushButton, INPUT_PULLUP);
   pinMode(GreenLED, OUTPUT);
