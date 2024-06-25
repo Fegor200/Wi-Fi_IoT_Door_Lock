@@ -173,20 +173,4 @@ void loop() {
       digitalWrite(GreenLED, LOW);
     }
   }
-  // if(digitalRead(pushButton) == LOW){
-  //   digitalWrite(RedLED, LOW);
-  //   delay(100);
-  //   myservo.write(0); // moves servo far right, unlocked
-  //   delay(200);
-  //   digitalWrite(GreenLED, HIGH);
-  //   delay(3000);
-  // }
-  // if(digitalRead(pushButton) == HIGH){
-  //   digitalWrite(GreenLED, LOW);
-  //   delay(100);
-  //   myservo.write(180); // move all the way left, locked position
-  //   delay(200);
-  //   digitalWrite(RedLED, HIGH);
-  //   delay(2000);
-  // }
 }
