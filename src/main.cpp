@@ -70,14 +70,6 @@ Servo myservo;
 //webserver object
 AsyncWebServer server(80);
 
-// Variable to store the HTTP request
-String header;
-
-// Decode HTTP GET value
-String valueString = String(0);
-int pos1 = 0;
-int pos2 = 0;
-
 // define parameters to be passed to the URL (GPIO number and states)
 const char* PARAM_INPUT_1 = "output";
 const char* PARAM_INPUT_2 = "state";
