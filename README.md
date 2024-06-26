@@ -7,10 +7,7 @@ This project allows you to control a servo motor using an ESP32 microcontroller 
 - [Features](#features)
 - [Hardware Required](#hardware-required)
 - [Software Required](#software-required)
-- [Installation](#installation)
-- [Usage](#usage)
 - [Credits](#credits)
-- [License](#license)
 
 ## Introduction
 This project was designed by Oghenefegor Enwa, starting on January 5th, 2024, and completed on June 26th, 2024. It provides a way to control a servo motor using a web interface served by an ESP32. The project also includes a keypad input system as an added system functionality.
