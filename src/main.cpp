@@ -5,6 +5,10 @@
   copies or substantial portions of the Software.
 *********/
 
+/*********
+  Designed by Oghenefegor Enwa
+  Started January 5th 2024, completed June 26th 2024
+ */
 #include <Arduino.h>
 #include <iostream>
 
@@ -29,9 +33,6 @@
 //set WiFi networ ID and password
 #define WIFI_NETWORK "dlink-9728"
 #define WIFI_PASSWORD "kugxb48486"
-
-// #define WIFI_NETWORK1 "TELUS0377"
-// #define WIFI_PASSWORD1 "yn99sbdzpd"
 
 #define WIFI_TIMEOUT_MS 10000
 
@@ -74,7 +75,7 @@ AsyncWebServer server(80);
 const char* PARAM_INPUT_1 = "output";
 const char* PARAM_INPUT_2 = "state";
 
-// webpage
+// webpage (design from Rui Santos)
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
@@ -122,7 +123,7 @@ String processor(const String& var){
   //Serial.println(var);
   if(var == "BUTTONPLACEHOLDER"){
     String buttons = "";
-    buttons += "<h4>Board Led</h4><label class=\"switch\"><input type=\"checkbox\" onchange=\"toggleCheckbox(this)\" id=\"2\" " + outputState(LED) + "><span class=\"slider\"></span></label>";
+    buttons += "<h4>Led and Servo</h4><label class=\"switch\"><input type=\"checkbox\" onchange=\"toggleCheckbox(this)\" id=\"2\" " + outputState(LED) + "><span class=\"slider\"></span></label>";
     buttons += "<h4>Servo Lock</h4><label class=\"switch\"><input type=\"checkbox\" onchange=\"toggleCheckbox(this)\" id=\"12\" " + outputState(servopin) + "><span class=\"slider\"></span></label>";
     return buttons;
   }
