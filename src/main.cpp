@@ -41,8 +41,38 @@
 #define RedLED 27
 #define A1 34
 
+int position = 0;
+int bias = 40;
+int keyIN = 0;
+
+const int maxKey = 3;  // Maximum number of keys to detect
+char detectedKeys[maxKey];  // Array to store detected keys
+int keyCount = 0;  // Counter for detected keys
+
+int keyVals[10] = {2080, 2520, 3030, 2280, 2650, 3150, 2400, 2770, 3210, 2860};
+char keys[10]   = {'1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0'};
+
+//initialize list with predefined passwords
+std::vector<std::string> passwords = {"1111", "2250"};
+
+// create hased based pasword management for better security/password management
+
+//define string to hold keyed in keys
+String passkey[1];
+
+// creates servo object
+Servo myservo; 
+
 //webserver object
 AsyncWebServer server(80);
+
+// Variable to store the HTTP request
+String header;
+
+// Decode HTTP GET value
+String valueString = String(0);
+int pos1 = 0;
+int pos2 = 0;
 
 // define parameters to be passed to the URL (GPIO number and states)
 const char* PARAM_INPUT_1 = "output";
@@ -96,34 +126,13 @@ String processor(const String& var){
   //Serial.println(var);
   if(var == "BUTTONPLACEHOLDER"){
     String buttons = "";
-    buttons += "<h4>Output - GPIO 2</h4><label class=\"switch\"><input type=\"checkbox\" onchange=\"toggleCheckbox(this)\" id=\"2\" " + outputState(LED) + "><span class=\"slider\"></span></label>";
+    buttons += "<h4>Board Led</h4><label class=\"switch\"><input type=\"checkbox\" onchange=\"toggleCheckbox(this)\" id=\"2\" " + outputState(LED) + "><span class=\"slider\"></span></label>";
+    buttons += "<h4>Servo Lock</h4><label class=\"switch\"><input type=\"checkbox\" onchange=\"toggleCheckbox(this)\" id=\"12\" " + outputState(servopin) + "><span class=\"slider\"></span></label>";
     return buttons;
   }
   return String();
 }
 
-
-int position = 0;
-int bias = 40;
-int keyIN = 0;
-
-const int maxKey = 3;  // Maximum number of keys to detect
-char detectedKeys[maxKey];  // Array to store detected keys
-int keyCount = 0;  // Counter for detected keys
-
-int keyVals[10] = {2080, 2520, 3030, 2280, 2650, 3150, 2400, 2770, 3210, 2860};
-char keys[10]   = {'1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0'};
-
-
-//initialize list with predefined passwords
-std::vector<std::string> passwords = {"1111", "2250"};
-
-// create hased based pasword management for better security/password management
-
-//define string to hold keyed in keys
-String passkey[1];
-
-Servo myservo; // creates servo object
 
 void connectToWiFi(){
  
@@ -178,8 +187,18 @@ void setup() {
   Serial.begin(9600); // Start the serial communication
   delay(1000);        // Wait for serial port to initialize (useful for some boards)
   connectToWiFi();    // Function to connect to WiFi
+
+  //define hardware modes
+  pinMode(pushButton, INPUT_PULLUP);
+  pinMode(GreenLED, OUTPUT);
+  pinMode(RedLED, OUTPUT);
   pinMode(LED, OUTPUT);
+  myservo.attach(servopin);  // Attach the servo to pin 12
+
+  digitalWrite(GreenLED, LOW);
+  digitalWrite(RedLED, LOW);
   digitalWrite(LED, LOW);
+  myservo.write(90);   // Move servo to center position
 
 
   // Route for root / web page
@@ -191,11 +210,20 @@ void setup() {
   server.on("/update", HTTP_GET, [] (AsyncWebServerRequest *request) {
     String inputMessage1;
     String inputMessage2;
-    // GET input1 value on <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>
+    // GET input1 value on <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>}
     if (request->hasParam(PARAM_INPUT_1) && request->hasParam(PARAM_INPUT_2)) {
       inputMessage1 = request->getParam(PARAM_INPUT_1)->value();
       inputMessage2 = request->getParam(PARAM_INPUT_2)->value();
       digitalWrite(inputMessage1.toInt(), inputMessage2.toInt());
+      if(inputMessage2.toInt() == 1){
+        myservo.write(180);
+      }
+      else if(inputMessage2.toInt() == 0){
+        myservo.write(0);
+      }
+      else{
+        
+      }
     }
     else {
       inputMessage1 = "No message sent";
@@ -203,20 +231,11 @@ void setup() {
     }
     request->send(200, "text/plain", "OK");
   });
+  
 
   // Start server
   server.begin();
   Serial.println("HTTP server started");
-
-
-  //define hardware modes
-  pinMode(pushButton, INPUT_PULLUP);
-  pinMode(GreenLED, OUTPUT);
-  pinMode(RedLED, OUTPUT);
-  myservo.attach(12);  // Attach the servo to pin 12
-  digitalWrite(GreenLED, LOW);
-  digitalWrite(RedLED, LOW);
-  myservo.write(90);   // Move servo to center position
 
   // Generate and add a temporary passcode
   int tempPasscode = generatePasscode();
