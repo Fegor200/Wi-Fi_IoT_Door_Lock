@@ -25,7 +25,7 @@
 #include <ESPAsyncWebServer.h>
 #include <AsyncTCP.h>
 
-#define LED 2
+
 //set WiFi networ ID and password
 #define WIFI_NETWORK "dlink-9728"
 #define WIFI_PASSWORD "kugxb48486"
@@ -35,15 +35,19 @@
 
 #define WIFI_TIMEOUT_MS 10000
 
+#define LED 2
 #define GreenLED 13
 #define servopin 12
 #define pushButton 4
 #define RedLED 27
 #define A1 34
 
+
 int position = 0;
 int bias = 40;
 int keyIN = 0;
+int state_locked = 0;
+int state_unlocked = 180;
 
 const int maxKey = 3;  // Maximum number of keys to detect
 char detectedKeys[maxKey];  // Array to store detected keys
@@ -216,13 +220,12 @@ void setup() {
       inputMessage2 = request->getParam(PARAM_INPUT_2)->value();
       digitalWrite(inputMessage1.toInt(), inputMessage2.toInt());
       if(inputMessage2.toInt() == 1){
-        myservo.write(180);
+        myservo.write(state_unlocked);
       }
       else if(inputMessage2.toInt() == 0){
-        myservo.write(0);
+        myservo.write(state_locked);
       }
       else{
-        
       }
     }
     else {
