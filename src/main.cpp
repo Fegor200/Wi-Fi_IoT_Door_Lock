@@ -1,14 +1,12 @@
 /*********
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp32-async-web-server-espasyncwebserver-library/
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*********/
-
-/*********
   Designed by Oghenefegor Enwa
   Started January 5th 2024, completed June 26th 2024
  */
+
+/***  Webserver based upon example from Rui Santos
+  Random Nerd Tutorials
+  https://randomnerdtutorials.com/esp32-servo-motor-web-server-arduino-ide/
+***/
 #include <Arduino.h>
 #include <iostream>
 
