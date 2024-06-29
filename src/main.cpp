@@ -29,8 +29,8 @@
 
 
 //set WiFi networ ID and password
-#define WIFI_NETWORK "dlink-9728"
-#define WIFI_PASSWORD "kugxb48486"
+#define WIFI_NETWORK "your network name"
+#define WIFI_PASSWORD "Your password"
 
 #define WIFI_TIMEOUT_MS 10000
 
